@@ -1,0 +1,48 @@
+create database fastfood;
+use fastfood;
+
+create table Estoque(
+id INT PRIMARY KEY auto_increment,
+Codigo int,
+Nome varchar(100),
+Categoria varchar(50),
+Valor decimal(10,2),
+Quantidade INT,
+Descricao varchar(300),
+DataModificacao timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+CaminhoImagem varchar(100)
+);
+
+create table Carrinho(
+id INT PRIMARY KEY auto_increment,
+idLanche INT,
+foreign key (idLanche) references Estoque(id),
+Quantidade INT,
+Nome varchar(100),
+Valor decimal(10,2)
+);
+
+
+create table usuario(
+	codigo int not null primary key auto_increment,
+    nome varchar(80),
+    cpf varchar(15),
+    email varchar(80) ,
+    telefone varchar(15),
+    endereco varchar(140), 
+    usuario varchar(30), 
+    senha varchar(15)
+    );
+    
+create table perfil(
+codigo int not null primary key auto_increment,
+    nome varchar(80)
+);
+
+
+select * from Estoque;
+
+drop table Estoque;
+
+caminho imagens 
+../menu/lanche.png

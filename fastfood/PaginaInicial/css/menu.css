@@ -1,0 +1,262 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.637);
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    min-height: 100vh;
+    height: auto;
+}
+
+.borda {
+    border: 0.7vh rgb(34, 32, 32);
+    width: 203vh;
+    height: auto;
+    min-height: 98vh;
+    border-radius: 7vh;
+    box-shadow: 0.7vh 0.7vh 2.5vh 0.3vh #0000008a;
+    background-color: rgb(0, 0, 0);
+}
+
+.titulo {
+    border: 1px red solid;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 3vh;
+}
+
+.title__main {
+    border: 1px red solid;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 3vh;
+}
+
+.title-txt {
+    border: 1px red solid;
+    font-size: 6vh;
+    color: rgb(255, 145, 0);
+    font-family: "Changa One", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    justify-content: space-between;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 30px;
+    padding-right: 80px;
+}
+
+ul li {
+    margin-right: 10px;
+}
+
+ul li:last-child {
+    margin-right: 0;
+}
+
+ul li a {
+    display: block;
+    color: rgb(255, 255, 255);
+    text-decoration: none;
+    font-size: 30px;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+ul li a:hover {
+    background-color: blue;
+}
+
+.logo {
+    width: 200px;
+    height: 100px;
+    padding-left: 40px;
+}
+
+.tantofaz {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logotipo {
+    width: auto;
+    height: auto;
+}
+
+.texto {
+    color: aliceblue;
+    font-size: 40px;
+}
+
+.parágrafo {
+    color: aliceblue;
+    font-size: 25px;
+}
+
+.botão {
+    width: 170px;
+    height: 38px;
+    font-size: 20px;
+    background-color: rgb(241, 121, 121);
+
+}
+
+.imgburger {
+    margin-top: 1%;
+    margin-left: 350%;
+}
+
+.qlqrnome {
+    display: flex;
+    margin-left: 15px;
+    margin-top: 100px;
+}
+
+
+.funcionamento {
+    text-align: center;
+    padding-bottom: 4vh;
+}
+
+.cardapio-row {
+    display: flex;
+    margin-top: 100px;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.cardapio {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: calc(25% - 20px);
+    margin-bottom: 20px;
+}
+
+.divisoria1__cardapio {
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.lanche {
+    border: 1px #F8AF29 solid;
+    height: auto;
+    width: 320px;
+}
+
+.divisoria1__cardapio-Main {
+    height: 270px;
+    width: 320px;
+}
+
+.divisoria1__cardapio-BTN {
+    height: 50px;
+    width: 320px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.imgLanche {
+    margin: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 180px;
+    width: 300px;
+}
+
+
+
+.descricaoLanche {
+    margin: 10px;
+    height: 60px;
+    width: 300px;
+}
+
+.botaoLanche {
+    height: 40px;
+    width: 200px;
+    border-radius: 15px;
+    background-color: #F8AF29;
+    border: 0;
+    font-size: 20px;
+    cursor: pointer;
+
+}
+
+.botaoLanche:hover {
+    background-color: transparent;
+    border: 1px #F8AF29 solid;
+    color: #F8AF29;
+}
+
+.lancheIMG {
+    width: 200px;
+    height: 150px;
+}
+
+.txtDescricai{
+    color: white;
+}
+
+.floating-button {
+    position: fixed;
+    bottom: 2vh;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    background-color: #F8AF29;
+    color: rgb(0, 0, 0);
+    border: none;
+    border-radius: 10% 10% 10% 10%;
+    height: 8vh;
+    font-size: 3vh;
+    box-shadow: 0 0.5vh 0.9vh rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+
+.hidden {
+    display: none;
+}
+
+.floating-button:hover {
+    background-color: transparent;
+    border: 1px #F8AF29 solid;
+    color: #F8AF29;
+}
+
+.divisoria1__acima__Cardapio{
+    width: auto;
+    height: 390px;
+}
+
+.nomeLanche{
+    text-align: center;
+    color: white;
+    font-size: 30px;
+}
