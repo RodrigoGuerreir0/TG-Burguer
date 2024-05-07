@@ -9,20 +9,19 @@
     <link rel="stylesheet" href="style.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.maskedinput/1.4.1/jquery.maskedinput.min.js"></script>
-
   </head>
 <body>
-
 <div class="tudo">
 
         <div class="container">
         
         <form action="#" method="post" name="form1">
-        
+        <img src="../../PaginaInicial/imgs/logocortado.png" class="imglogo">
         <div class="tituloform">
          Cadastro de usuário <br/>
         </div>
         <div class="inputs">
+          <div>
         <div class="form-floating mb-3 ">
           <input type="text" class="form-control" required name="nome" id="nome" placeholder="Nome">
           <label for="nome">Nome</label>
@@ -51,7 +50,6 @@
         <div class="form-floating mb-3">
           <input type="text" class="form-control" required id="telefone" name="telefone" placeholder="Telefone"  maxlength="15">
           <label for="telefone">Telefone</label>
-         
          <script>
                   const telefoneInput = document.getElementById('telefone');
                   telefoneInput.addEventListener('input', () => {
@@ -71,12 +69,9 @@
         <input type="password" required class="form-control" id="senha" name="senha" placeholder="Crie uma senha" minlength="8" maxlength="15" >
         <label for="senha">Senha</label>
         </div>
-
-        <div class="form-floating mb-3 ">
-          <input type="text"   required name="endereco" id="endereco" class="form-control" placeholder="Digite seu endereço" aria-label="Username" aria-describedby="basic-addon1">
-          <label for="endereço">Endereço</label>
         </div>
         </div>
+        
         <div class="d-grid gap-2 col-6 mx-auto">
          <button type="submit" class="btn " >Cadastrar</button></div>
          </form>
@@ -90,17 +85,15 @@ $nome = $_POST["nome"];
 $cpf =  $_POST["cpf"];
 $email= $_POST["email"];
 $telefone =  $_POST["telefone"];
-$endereco =  $_POST["endereco"];
 $usuario =  $_POST["usuario"];
 $senha =  $_POST["senha"];
 $conexao = new pdo ("mysql:host=127.0.0.1;dbname=fastfood", "root", "");
 
-$comandoSQL = $conexao->prepare("INSERT INTO usuario(nome, cpf, email, telefone, endereco, usuario, senha) VALUES(:nome, :cpf, :email, :telefone, :endereco, :usuario, :senha)");
+$comandoSQL = $conexao->prepare("INSERT INTO usuario(nome, cpf, email, telefone, usuario, senha) VALUES(:nome, :cpf, :email, :telefone, :usuario, :senha)");
 $comandoSQL->bindParam(":nome", $nome);
 $comandoSQL->bindParam(":cpf", $cpf);
 $comandoSQL->bindParam(":email", $email);
 $comandoSQL->bindParam(":telefone", $telefone);
-$comandoSQL->bindParam(":endereco", $endereco);
 $comandoSQL->bindParam(":usuario", $usuario);
 $comandoSQL->bindParam(":senha", $senha);
 $comandoSQL->execute();

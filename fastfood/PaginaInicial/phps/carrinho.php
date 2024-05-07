@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/carrinho.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <title>Carrinho</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
@@ -25,12 +26,15 @@ $somaItens = SomaValores();
         $valor = $_POST["Valor"];
         $valor2 = $_POST["Valor"];
 
-        function inserirEstoque($idLanche, $quantidade, $nome, $valor, $valor2)
+        $processamento = 0;
+
+
+        function inserirEstoque($idLanche, $quantidade, $nome, $valor, $valor2, $processamento)
         {
             $conexao = new PDO("mysql:host=localhost;dbname=fastfood", "root", "");
             $comandoSQL = $conexao->query("SELECT Quantidade, Valor, ValorDeCada FROM Carrinho " .
-                " WHERE idLanche = " . $idLanche);
-            $qtdeEncontrada = 0;
+                " WHERE idLanche = " . $idLanche . " AND processamento = 0");
+
             $qtdeEncontrada = 0;
 
             while ($linhaBD = $comandoSQL->fetch()) {
@@ -38,10 +42,11 @@ $somaItens = SomaValores();
                 $valorEncontrado = $linhaBD["Valor"];
             }
 
+            $numpedido = 0;
+            $metodopagamento = 'vazio';
 
-            $conexao = new PDO("mysql:host=localhost;dbname=fastfood", "root", "");
             if ($qtdeEncontrada > 0) {
-                $scriptInserir = "UPDATE Carrinho SET Quantidade = :quantidade, ValorDeCada = :valordecada  WHERE idLanche = " . $idLanche;
+                $scriptInserir = "UPDATE Carrinho SET Quantidade = :quantidade, ValorDeCada = :valordecada, NumeroPedido = :numeropedido, MetodoPagamento = :metodopagamento WHERE Processamento = 0 AND idLanche = " . $idLanche;
                 $stmt = $conexao->prepare($scriptInserir);
 
                 $qtdeEncontrada = $quantidade + $qtdeEncontrada;
@@ -49,8 +54,10 @@ $somaItens = SomaValores();
 
                 $valorEncontrado = $valor * $qtdeEncontrada;
                 $stmt->bindParam(':valordecada', $valorEncontrado);
+                $stmt->bindParam(':numeropedido', $numpedido);
+                $stmt->bindParam(':metodopagamento', $metodopagamento);
             } else {
-                $scriptInserir = "INSERT INTO Carrinho (idLanche, Quantidade, Nome, Valor, ValorDeCada) VALUES (:idLanche, :quantidade, :nome, :valor, :valordecada)";
+                $scriptInserir = "INSERT INTO Carrinho (idLanche, Quantidade, Nome, Valor, ValorDeCada, Processamento, NumeroPedido, MetodoPagamento) VALUES (:idLanche, :quantidade, :nome, :valor, :valordecada, :processamento, :numeropedido, :metodopagamento)";
                 $stmt = $conexao->prepare($scriptInserir);
 
                 $stmt->bindParam(':idLanche', $idLanche);
@@ -58,16 +65,20 @@ $somaItens = SomaValores();
                 $stmt->bindParam(':nome', $nome);
                 $stmt->bindParam(':valor', $valor);
                 $stmt->bindParam(':valordecada', $valor2);
+                $stmt->bindParam(':processamento', $processamento);
+                $stmt->bindParam(':numeropedido', $numpedido);
+                $stmt->bindParam(':metodopagamento', $metodopagamento);
             }
             $stmt->execute();
         }
 
-        inserirEstoque($idLanche, $quantidade, $nome, $valor, $valor2);
+        inserirEstoque($idLanche, $quantidade, $nome, $valor, $valor2, $processamento, $Numeropedido);
         header('Location:menu.php');
     }
 
     $conexao = new PDO("mysql:host=localhost;dbname=fastfood", "root", "");
     $scriptInserir = $conexao->query("SELECT * FROM Carrinho");
+
     echo "<br>";
     ?>
 
@@ -100,17 +111,23 @@ $somaItens = SomaValores();
 
 
     <div class="borda">
-        <div class="navbar">
-            <nav>
-                <div class="logotipo"><img src="../imgs/Logo.png" class="logo"></div>
+    <div class="navbar">
+            <nav class="menu">
+                <input type="checkbox" class="menu-faketrigger"/>
+                <div class="menu_lines">
+                    <!-- span é a linha que fica dentro da nave (itens) -->
+                    <span></span> 
+                    <span></span>
+                    <span></span>
+                </div>
                 <ul>
-                    <li><a href="../../telaInicial.html">INÍCIO</a></li><br>
-                    <li><a href="./sobre.php">SOBRE</a></li><br>
-                    <li><a href="./menu.php">MENU</a></li><br>
-                    <li><a href="./contatos.php">CONTATOS</a></li><br>
-                    <li><a href="./perfil.php">PERFIL</a></li><br>
-                    <li><a href="./login.php">LOGIN</a></li><br>
-                    <li><a href="#">CARRINHO</a></li><br>
+                    <li><a href="../../telaInicial.html"><i class="material-symbols-outlined" >home</i>  Início</a></li>
+                    <li><a href="./sobre.php"><i class="material-symbols-outlined">groups</i>  Sobre</a></li>
+                    <li><a href="./menu.php"><i class="material-symbols-outlined">restaurant</i>  Menu</a></li>
+                    <li><a href="./contatos.php"><i class="material-symbols-outlined">call</i>  Contatos</a></li>
+                    <li><a href="./perfil.php"><i class="material-symbols-outlined">perfil</i>  Pefil</a></li>
+                    <li><a href="./login.php"><i class="material-symbols-outlined">login</i>  Login</a></li>
+                    <li><a href="#"><i class="material-symbols-outlined">shopping_cart</i>  Carrinho</a></li>
                 </ul>
             </nav>
         </div>
@@ -127,16 +144,18 @@ $somaItens = SomaValores();
                                     <div>
                                         <?php
                                         $conexao = new PDO("mysql:host=localhost;dbname=fastfood", "root", "");
-                                        $scriptInserir = $conexao->query("SELECT * FROM Carrinho");
+                                        $scriptInserir = $conexao->query("SELECT * FROM Carrinho where processamento = 0");
                                         echo "<br>";
 
                                         ?>
                                         <div class="espacoTabela">
                                             <div>
                                                 <table class="table">
+
                                                     <thead>
                                                     </thead>
                                                     <tbody>
+
                                                         <?php
                                                         while ($linha = $scriptInserir->fetch()) {
                                                             $idLanche = $linha["idLanche"];
@@ -144,7 +163,9 @@ $somaItens = SomaValores();
                                                             $quantidade = $linha["Quantidade"];
                                                             $valor = $linha["Valor"];
                                                             $valorDeCada = $linha["ValorDeCada"];
+
                                                         ?>
+
                                                             <tr>
                                                                 <td class="linhanome"><?php echo $nome; ?></td>
                                                                 <td class="nome linhaquantidade quantidade" data-id="<?php echo $idLanche; ?>">
@@ -172,64 +193,61 @@ $somaItens = SomaValores();
 
                                         <div class="naosei">
                                             <div class="MetodosPagamentos__main">
+                                                <form action="pedidos.php" method="post">
+                                                    <table class="teao">
+                                                        <tr>
+                                                            <td class="fp">Forma de Pagamento</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="cc">
+                                                                <label>
+                                                                    <input type="radio" checked require name="MetodoPagamento" value="Cartão de Crédito" />
+                                                                    <span name="MetodoPagamento">Cartão de Crédito</span>
+                                                                </label>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="cc">
+                                                                <label>
+                                                                    <input type="radio" require name="MetodoPagamento" value="Cartão de Débito" />
+                                                                    <span name="MetodoPagamento">Cartão de Débito</span>
+                                                                </label>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="cc">
+                                                                <label>
+                                                                    <input type="radio" require name="MetodoPagamento" value="Vale Refeição" />
+                                                                    <span>Vale Refeição</span>
+                                                                </label>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="cc">
+                                                                <label>
+                                                                    <input type="radio" require name="MetodoPagamento" value="Pix" />
+                                                                    <span>Pix</span>
+                                                                </label>
+                                                            </td>
+                                                        </tr>
+                                                        <label>
 
-                                                <table class="teao">
-                                                    <tr>
-                                                        <td class="fp">Forma de Pagamento</td>
-                                                    </tr>
-
-                                                    <tr>
-                                                        <td class="cc">
-                                                            <label>
-                                                                <input type="radio" name="radio" checked require />
-                                                                <span>Cartão de Crédito</span>
-                                                            </label>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="cc">
-                                                            <label>
-                                                                <input type="radio" name="radio" require />
-                                                                <span>Cartão de Débito</span>
-                                                            </label>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="cc">
-                                                            <label>
-                                                                <input type="radio" name="radio" require />
-                                                                <span>Vale Refeição</span>
-                                                            </label>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="cc">
-                                                            <label>
-                                                                <input type="radio" name="radio" require />
-                                                                <span>Pix</span>
-                                                            </label>
-                                                        </td>
-                                                    </tr>
-                                                    <label>
-
-
-                                                </table>
+                                                    </table>
+                                                    <input type="hidden" name="NomeLanche" value="<?php echo $nome; ?>"> </input>
+                                                    <input type="hidden" name="QuantidadeLanche" value="<?php echo $quantidade; ?>"></input>
+                                                    <input type="hidden" name="ValorPedido" value="<?php echo $somaItens; ?>"></input>
 
                                             </div>
+
                                             <div class="ValorPagamentos__main">
                                                 <div class="numeropedido">
-                                                    <div class="numeropedido__main-centro">
-                                                        <div class="asofyiasd">
-                                                            <p class="numeropedido__main">Numero do seu pedido</p>
-                                                        </div>
-                                                    </div>
                                                     <div class="numeroPDD">
-                                                        <p class="numeropedido__Numero">#1407</p>
-                                                    </div>
+                                                        <p class="numeropedido__main">Numero do seu pedido será gerado após finalizar seu pedido</p>
 
+                                                    </div>
                                                 </div>
                                                 <p class="stpedi ">Pedido mínimo: R$0.00.</p>
-                                                <p class="st">Total: <?php echo "R$ " . $somaItens  ?></p>
+                                                <p class="st" name="ValorPedido">Total: <?php echo "R$ " . $somaItens  ?></p>
                                             </div>
                                         </div>
                                     </div>
@@ -237,11 +255,21 @@ $somaItens = SomaValores();
                                 <div class="subTotal">
                                     <div class="pac_main">
                                         <div class="botaoPac">
-                                            <button type="submit" class="botaoPac__main"><b>Finalizar Compra</b></button>
+
+                                            <?php
+                                            $Numeropedido = intval(rand(1, 9999));
+
+
+                                            ?>
+
+                                            <input type="hidden" name="NumeroPedido" value="<?php echo $Numeropedido  ?>"></input>
+
+                                            <button type="submit" class="botaoPac__main" target="_blank" ><b>Finalizar Compra</b></button>
                                         </div>
+
                                     </div>
                                 </div>
-
+                                </form>
 
                             </div>
 
@@ -284,7 +312,7 @@ $somaItens = SomaValores();
                 success: function(response) {
                     location.reload();
                 },
-                
+
                 error: function(xhr, status, error) {
                     console.log('Erro ao atualizar quantidade: ' + error);
                 }

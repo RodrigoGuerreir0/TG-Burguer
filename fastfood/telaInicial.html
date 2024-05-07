@@ -3,23 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../PaginaInicial/css/estilo.css">
+    <link rel="stylesheet" href="./PaginaInicial/css/estilo.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <title>TG Lanches</title>
 </head>
 <body>
 
     <div class="borda">
         <div class="navbar">
-            <nav>
-                <div class="logotipo"><img src="./PaginaInicial/imgs/Logo.png" class="logo"></div>
+            <nav class="menu">
+                <input type="checkbox" class="menu-faketrigger"/>
+                <div class="menu_lines">
+                    <!-- span é a linha que fica dentro da nave (itens) -->
+                    <span></span> 
+                    <span></span>
+                    <span></span>
+                </div>
                 <ul>
-                    <li><a href="#">INÍCIO</a></li><br>
-                    <li><a href="./PaginaInicial/phps/sobre.php">SOBRE</a></li><br>
-                    <li><a href="./PaginaInicial/phps/menu.php">MENU</a></li><br>
-                    <li><a href="./PaginaInicial/phps/contatos.php">CONTATOS</a></li><br>
-                    <li><a href="./PaginaInicial/phps/perfil.php">PERFIL</a></li><br>
-                    <li><a href="./cadastros/login/login.php">LOGIN</a></li><br>
-                    <li><a href="./PaginaInicial/phps/carrinho.php">CARRINHO</a></li><br>
+                    <li><a href="#"><i class="material-symbols-outlined" >home</i>  Início</a></li>
+                    <li><a href="./PaginaInicial/phps/sobre.php"><i class="material-symbols-outlined">groups</i>  Sobre</a></li>
+                    <li><a href="./PaginaInicial/phps/menu.php"><i class="material-symbols-outlined">restaurant</i>  Menu</a></li>
+                    <li><a href="./PaginaInicial/phps/contatos.php"><i class="material-symbols-outlined">call</i>  Contatos</a></li>
+                    <li><a href="./PaginaInicial/phps/perfil.php"><i class="material-symbols-outlined">perfil</i>  Pefil</a></li>
+                    <li><a href="./PaginaInicial/phps/login.php"><i class="material-symbols-outlined">login</i>  Login</a></li>
+                    <li><a href="./PaginaInicial/phps/carrinho.php"><i class="material-symbols-outlined">shopping_cart</i>  Carrinho</a></li>
                 </ul>
             </nav>
         </div>
